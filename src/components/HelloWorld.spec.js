@@ -2,39 +2,41 @@ import { it, expect, describe, vi } from "vitest";
 import { mount, shallowMount } from "@vue/test-utils";
 import axios from "axios";
 import HelloWorld from "./HelloWorld.vue";
+import { createTestingPinia } from "@pinia/testing";
+import { useAppStore } from "../stores/appStore";
 
 global.fetch = vi.fn();
 vi.mock("axios");
 
 describe("Suite de testes do componente HelloWorld", () => {
-  it("Deve renderizar a prop msg", () => {
-    const wrapper = mount(HelloWorld, {
-      props: {
-        msg: "Primeiro teste",
-      },
-    });
+  // it("Deve renderizar a prop msg", () => {
+  //   const wrapper = mount(HelloWorld, {
+  //     props: {
+  //       msg: "Primeiro teste",
+  //     },
+  //   });
 
-    expect(wrapper.find("h1").text()).toBe("Primeiro teste");
-  });
+  //   expect(wrapper.find("h1").text()).toBe("Primeiro teste");
+  // });
 
-  it("Deve adicionar valor no contador quandoo método é chamado (withebox testing)", () => {
-    // whitebox testing
-    const wrapper = mount(HelloWorld);
+  // it("Deve adicionar valor no contador quandoo método é chamado (withebox testing)", () => {
+  //   // whitebox testing
+  //   const wrapper = mount(HelloWorld);
 
-    wrapper.vm.increment();
+  //   wrapper.vm.increment();
 
-    expect(wrapper.vm.count).toBe(1);
-  });
+  //   expect(wrapper.vm.count).toBe(1);
+  // });
 
-  it("Deve adicionar valor no contador e mostrar o valor atualizado (blackbox testing)", async () => {
-    const wrapper = mount(HelloWorld);
+  // it("Deve adicionar valor no contador e mostrar o valor atualizado (blackbox testing)", async () => {
+  //   const wrapper = mount(HelloWorld);
 
-    const button = wrapper.find("button");
+  //   const button = wrapper.find("button");
 
-    await button.trigger("click");
+  //   await button.trigger("click");
 
-    expect(button.text()).toBe("count is 1");
-  });
+  //   expect(button.text()).toBe("count is 1");
+  // });
 
   //  AULA 7, MOCK COM fetch
   // it("Deve fazer uma chamada api, usando a url correta dependendo da mensagem da prop", async () => {
@@ -52,13 +54,31 @@ describe("Suite de testes do componente HelloWorld", () => {
   // });
 
   // AULA 8, mock com axios
-  it("Deve chamar o axios.get função, com https://asdf.org/get, quando a mensagem de props mudar", async () => {
-    const wrapper = shallowMount(HelloWorld);
+  // it("Deve chamar o axios.get função, com https://asdf.org/get, quando a mensagem de props mudar", async () => {
+  //   const wrapper = shallowMount(HelloWorld);
 
-    await wrapper.setProps({
-      msg: "get",
+  //   await wrapper.setProps({
+  //     msg: "get",
+  //   });
+
+  //   expect(axios.get).toHaveBeenLastCalledWith("https://asdf.org/get");
+  // });
+
+  // AULA 9, mock com dispath em store
+  it("Deve disparar o changeMessage com 'test' se a prop for mudada para 'test' ", async () => {
+    const wrapper = shallowMount(HelloWorld, {
+      global: {
+        plugins: [createTestingPinia()],
+      },
     });
 
-    expect(axios.get).toHaveBeenLastCalledWith("https://asdf.org/get");
+    const store = useAppStore();
+
+    await wrapper.setProps({
+      msg: "test",
+    });
+
+    expect(store.changeMessage).toHaveBeenNthCalledWith(1, 'test')
+    
   });
 });

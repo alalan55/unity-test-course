@@ -1,6 +1,8 @@
 <script setup>
 import axios from "axios";
 import { ref, watch } from "vue";
+// import { useAppStore } from "@/stores/appStore";
+import { useAppStore } from "../stores/appStore";
 
 const props = defineProps({
   msg: String,
@@ -8,15 +10,20 @@ const props = defineProps({
 
 const count = ref(0);
 
+
 const increment = () => count.value++;
+
+const store = useAppStore();
+// const { changeMessage } = useAppStore();
 
 watch(
   () => props.msg,
   (nv) => {
     // let URL = `https://example.com/` + nv;
     // fetch(URL);
+    // axios.get("https://asdf.org/get");
 
-    axios.get("https://asdf.org/get");
+    store.changeMessage(nv);
   }
 );
 </script>
