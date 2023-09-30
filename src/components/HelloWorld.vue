@@ -1,13 +1,24 @@
 <script setup>
-import { ref } from 'vue'
+import axios from "axios";
+import { ref, watch } from "vue";
 
-defineProps({
+const props = defineProps({
   msg: String,
-})
+});
 
-const count = ref(0)
+const count = ref(0);
 
-const increment = () => count.value++
+const increment = () => count.value++;
+
+watch(
+  () => props.msg,
+  (nv) => {
+    // let URL = `https://example.com/` + nv;
+    // fetch(URL);
+
+    axios.get("https://asdf.org/get");
+  }
+);
 </script>
 
 <template>
@@ -23,8 +34,7 @@ const increment = () => count.value++
 
   <p>
     Check out
-    <a href="https://vuejs.org/guide/quick-start.html#local" target="_blank"
-      >create-vue</a
+    <a href="https://vuejs.org/guide/quick-start.html#local" target="_blank">create-vue</a
     >, the official Vue + Vite starter
   </p>
   <p>
