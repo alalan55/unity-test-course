@@ -4,6 +4,7 @@ import axios from "axios";
 import HelloWorld from "./HelloWorld.vue";
 import { createTestingPinia } from "@pinia/testing";
 import { useAppStore } from "../stores/appStore";
+import TitleComponent from "./TitleComponent.vue";
 
 global.fetch = vi.fn();
 vi.mock("axios");
@@ -78,7 +79,19 @@ describe("Suite de testes do componente HelloWorld", () => {
       msg: "test",
     });
 
-    expect(store.changeMessage).toHaveBeenNthCalledWith(1, 'test')
-    
+    expect(store.changeMessage).toHaveBeenNthCalledWith(1, "test");
+  });
+
+  // AULA 10
+  it("Deve fazer o bind correto da msg prop para o TitleComponent", () => {
+    const wrapper = shallowMount(HelloWorld, {
+      props: {
+        msg: "Primeira seção",
+      },
+    });
+
+    const titleComponent = wrapper.findComponent(TitleComponent);
+
+    expect(titleComponent.props('value')).toBe('Meu título: Primeira seção')
   });
 });
