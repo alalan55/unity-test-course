@@ -10,7 +10,7 @@ const props = defineProps({
 });
 
 const count = ref(0);
-const prefixedMsg = computed(() =>`Meu título: ${props.msg}`)
+const prefixedMsg = computed(() => `Meu título: ${props.msg}`);
 
 const increment = () => count.value++;
 
@@ -31,9 +31,9 @@ watch(
 
 <template>
   <h1>{{ msg }}</h1>
-  <TitleComponent :value="prefixedMsg" />
+  <TitleComponent v-show="msg" :value="prefixedMsg" />
 
-  <div class="card">
+  <div class="card" :class="{ 'card-success': !msg }">
     <button type="button" @click="increment">count is {{ count }}</button>
     <p>
       Edit

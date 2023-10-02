@@ -92,6 +92,107 @@ describe("Suite de testes do componente HelloWorld", () => {
 
     const titleComponent = wrapper.findComponent(TitleComponent);
 
-    expect(titleComponent.props('value')).toBe('Meu título: Primeira seção')
+    expect(titleComponent.props("value")).toBe("Meu título: Primeira seção");
   });
+
+  it("Deve renderizar o TitleComponent se a prop msg for setada", () => {
+    const wrapper = shallowMount(HelloWorld, {
+      props: {
+        msg: "Primeira seção",
+      },
+    });
+
+    const titleComponentWrapper = wrapper.findComponent(TitleComponent);
+
+    expect(titleComponentWrapper.exists()).toBe(true);
+  });
+
+  // test.each([
+  //   {
+  //     msg: "Primeira seção",
+  //     titleComponentExists: true,
+  //   },
+  //   {
+  //     msg: undefined,
+  //     titleComponentExists: false,
+  //   },
+  //   {
+  //     msg: '',
+  //     titleComponentExists: false,
+  //   },
+  // ])(
+  //   "msg: $msg -> titleComponentExists: $titleComponentExists",
+  //   ({ msg, titleComponentExists }) => {
+  //     const wrapper = shallowMount(HelloWorld, {
+  //       props: {
+  //         msg,
+  //       },
+  //     });
+
+  //     const titleComponentWrapper = wrapper.findComponent(TitleComponent);
+
+  //     expect(titleComponentWrapper.exists()).toBe(titleComponentExists);
+  //   }
+  // );
+
+    // UTILIZADO PARA O V-IF
+    // test.each([
+    //   {
+    //     msg: "Primeira seção",
+    //     successClassExists: false,
+    //   },
+    //   {
+    //     msg: undefined,
+    //     successClassExists: true,
+    //   },
+    //   {
+    //     msg: '',
+    //     successClassExists: true,
+    //   },
+    // ])(
+    //   "msg: $msg -> successClassExists: $successClassExists",
+    //   ({ msg, successClassExists }) => {
+    //     const wrapper = shallowMount(HelloWorld, {
+    //       props: {
+    //         msg,
+    //       },
+    //     });
+  
+    //     const cardElementWrapper = wrapper.find('.card-success')
+  
+    //     expect(cardElementWrapper.exists()).toBe(successClassExists);
+    //   }
+    // );
+
+  // UTILIZADO PARA O V-SHOW
+  test.each([
+    {
+      msg: "Primeira seção",
+      titleComponentStyle: undefined,
+    },
+    {
+      msg: undefined,
+      titleComponentStyle: 'display: none;',
+    },
+    {
+      msg: '',
+      titleComponentStyle: 'display: none;',
+    },
+  ])(
+    "msg: $msg -> titleComponentStyle: $titleComponentStyle",
+    ({ msg, titleComponentStyle }) => {
+      const wrapper = shallowMount(HelloWorld, {
+        props: {
+          msg,
+        },
+      });
+
+      const titleComponentWrapper = wrapper.findComponent(TitleComponent);
+
+      expect(titleComponentWrapper.element.attributes.getNamedItem('style')?.value).toBe(titleComponentStyle);
+    }
+  );
+
+
+  
 });
