@@ -13,7 +13,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <div>{{ value }}</div>
+  <div>
+    <h1>{{ value }}</h1>
+  </div>
 </template>
 
 <style lang="scss" scoped></style>
