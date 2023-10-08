@@ -9,16 +9,21 @@ import TitleComponent from "./TitleComponent.vue";
 global.fetch = vi.fn();
 vi.mock("axios");
 
-describe("Suite de testes do componente HelloWorld", () => {
-  // it("Deve renderizar a prop msg", () => {
-  //   const wrapper = mount(HelloWorld, {
-  //     props: {
-  //       msg: "Primeiro teste",
-  //     },
-  //   });
+const createWrapper = (props) => shallowMount(HelloWorld, { props });
 
-  //   expect(wrapper.find("h1").text()).toBe("Primeiro teste");
-  // });
+describe("Suite de testes do componente HelloWorld", () => {
+  it("Deve renderizar a prop msg", () => {
+    const wrapper = mount(HelloWorld, {
+      props: {
+        msg: "Primeiro teste",
+      },
+      global: {
+        plugins: [createTestingPinia()],
+      },
+    });
+
+    expect(wrapper.find("h1").text()).toBe("Primeiro teste");
+  });
 
   // it("Deve adicionar valor no contador quandoo método é chamado (withebox testing)", () => {
   //   // whitebox testing
@@ -135,34 +140,34 @@ describe("Suite de testes do componente HelloWorld", () => {
   //   }
   // );
 
-    // UTILIZADO PARA O V-IF
-    // test.each([
-    //   {
-    //     msg: "Primeira seção",
-    //     successClassExists: false,
-    //   },
-    //   {
-    //     msg: undefined,
-    //     successClassExists: true,
-    //   },
-    //   {
-    //     msg: '',
-    //     successClassExists: true,
-    //   },
-    // ])(
-    //   "msg: $msg -> successClassExists: $successClassExists",
-    //   ({ msg, successClassExists }) => {
-    //     const wrapper = shallowMount(HelloWorld, {
-    //       props: {
-    //         msg,
-    //       },
-    //     });
-  
-    //     const cardElementWrapper = wrapper.find('.card-success')
-  
-    //     expect(cardElementWrapper.exists()).toBe(successClassExists);
-    //   }
-    // );
+  // UTILIZADO PARA O V-IF
+  // test.each([
+  //   {
+  //     msg: "Primeira seção",
+  //     successClassExists: false,
+  //   },
+  //   {
+  //     msg: undefined,
+  //     successClassExists: true,
+  //   },
+  //   {
+  //     msg: '',
+  //     successClassExists: true,
+  //   },
+  // ])(
+  //   "msg: $msg -> successClassExists: $successClassExists",
+  //   ({ msg, successClassExists }) => {
+  //     const wrapper = shallowMount(HelloWorld, {
+  //       props: {
+  //         msg,
+  //       },
+  //     });
+
+  //     const cardElementWrapper = wrapper.find('.card-success')
+
+  //     expect(cardElementWrapper.exists()).toBe(successClassExists);
+  //   }
+  // );
 
   // UTILIZADO PARA O V-SHOW
   test.each([
@@ -172,11 +177,11 @@ describe("Suite de testes do componente HelloWorld", () => {
     },
     {
       msg: undefined,
-      titleComponentStyle: 'display: none;',
+      titleComponentStyle: "display: none;",
     },
     {
-      msg: '',
-      titleComponentStyle: 'display: none;',
+      msg: "",
+      titleComponentStyle: "display: none;",
     },
   ])(
     "msg: $msg -> titleComponentStyle: $titleComponentStyle",
@@ -189,10 +194,32 @@ describe("Suite de testes do componente HelloWorld", () => {
 
       const titleComponentWrapper = wrapper.findComponent(TitleComponent);
 
-      expect(titleComponentWrapper.element.attributes.getNamedItem('style')?.value).toBe(titleComponentStyle);
+      expect(
+        titleComponentWrapper.element.attributes.getNamedItem("style")?.value
+      ).toBe(titleComponentStyle);
     }
   );
 
+  // AULA 12
+  it("Deve emitir um card-click quando o card for clicado", async () => {
+    const wrapper = createWrapper();
 
-  
+    const card = wrapper.find(".card");
+    await card.trigger("click");
+
+    expect(wrapper.emitted("card-clicked")).toBeTruthy();
+  });
+
+  it("Deve emitir up quando o title component emitir quando for criado no on-mounted event", async () => {
+    const wrapper = createWrapper();
+
+    const titleComponentWrapper = wrapper.findComponent(TitleComponent);
+
+    titleComponentWrapper.vm.$emit("on-mounted");
+
+    expect(wrapper.emitted("up")).toBeTruthy();
+
+    // para pegar o valor do dado que foi passado como argumento da função
+    expect(wrapper.emitted("up")?.[0][0]).toBe(0);
+  });
 });

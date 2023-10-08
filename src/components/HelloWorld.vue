@@ -5,12 +5,15 @@ import { computed, ref, watch } from "vue";
 import { useAppStore } from "../stores/appStore";
 import TitleComponent from "./TitleComponent.vue";
 
+const emit = defineEmits(["up"]);
 const props = defineProps({
   msg: String,
 });
 
 const count = ref(0);
 const prefixedMsg = computed(() => `Meu título: ${props.msg}`);
+
+const handleTitleMounted = () => emit("up", count.value);
 
 const increment = () => count.value++;
 
@@ -23,6 +26,7 @@ watch(
     // let URL = `https://example.com/` + nv;
     // fetch(URL);
     // axios.get("https://asdf.org/get");
+    // changeMessage(nv)
 
     store.changeMessage(nv);
   }
@@ -31,9 +35,10 @@ watch(
 
 <template>
   <h1>{{ msg }}</h1>
-  <TitleComponent v-show="msg" :value="prefixedMsg" />
 
-  <div class="card" :class="{ 'card-success': !msg }">
+  <TitleComponent v-show="msg" :value="prefixedMsg" @on-mounted="handleTitleMounted" />
+
+  <div class="card" :class="{ 'card-success': !msg }" @click="$emit('card-clicked')">
     <button type="button" @click="increment">count is {{ count }}</button>
     <p>
       Edit
