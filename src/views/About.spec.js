@@ -35,4 +35,17 @@ describe("Suite de testes do ABOUT", () => {
 
     expect(titleComponentWrapper.props("value")).toBe("ABOUT!");
   });
+
+  //AULA 16
+  it('Deve fazer um toogle no TitleComponent quando o botão for clicado', async() =>{
+    const button = wrapper.find('button')
+
+    let titleComponentWrapper = wrapper.findComponent(TitleComponentVue)
+    await button.trigger('click')
+    expect(titleComponentWrapper.exists()).toBe(false)
+
+    await button.trigger('click')
+    titleComponentWrapper = wrapper.findComponent(TitleComponentVue)
+    expect(titleComponentWrapper.exists()).toBe(true)
+  })
 });
