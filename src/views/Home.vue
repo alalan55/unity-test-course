@@ -1,8 +1,18 @@
 <script setup>
+import { storeToRefs } from "pinia";
+import { watch } from "vue";
 import { useRouter } from "vue-router";
 import TitleComponent from "../components/TitleComponent.vue";
+import { useAppStore } from "../stores/appStore";
 
+const store = useAppStore();
 const router = useRouter();
+
+const { $myMessage } = storeToRefs(store);
+
+watch($myMessage, () =>{
+  store.changeMessage('test')
+})
 
 const goToAbout = () => router.push("/about");
 </script>

@@ -72,7 +72,7 @@ describe("Suite de testes do ABOUT", () => {
 
     expect(fetch).toHaveBeenCalledWith("http://server.com/user", {
       method: "POST",
-      "body": '{"id":123}',
+      body: '{"id":123}',
     });
   });
 });
