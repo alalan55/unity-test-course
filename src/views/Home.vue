@@ -19,7 +19,7 @@ const goToAbout = () => router.push("/about");
 
 <template>
   <div>
-    <TitleComponent :value="store.myMessage" />
+    <TitleComponent v-if="store.$myMessage" :value="store.myMessage" />
     <button @click="goToAbout">Ir para sobre</button>
   </div>
 </template>

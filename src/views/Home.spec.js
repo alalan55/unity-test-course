@@ -44,11 +44,33 @@ describe("Suite de teste do Home view", () => {
 
   // AULA 20
   it("Deve fazer o bind correto do stado myMessage com o valor da propriedade do TitleComponent", async () => {
-    const titleComponentWrapper = wrapper.findComponent(TitleComponent);
     const store = useAppStore();
 
     await store.$patch({ myMessage: "Novo título" });
 
+    const titleComponentWrapper = wrapper.findComponent(TitleComponent);
+
     expect(titleComponentWrapper.props("value")).toBe("Novo título");
   });
+
+  // AULA 21
+  test.each([
+    {
+      isToHaveTitleComponent: false,
+      message: "",
+    },
+    {
+      isToHaveTitleComponent: true,
+      message: "test",
+    },
+  ])(
+    "message: $message -> titleComponent existe: $isToHaveTitleComponent",
+    async ({ message, isToHaveTitleComponent }) => {
+      const store = useAppStore();
+      await store.$patch({ myMessage: message });
+
+      const titleComponentWrapper = wrapper.findComponent(TitleComponent);
+      expect(titleComponentWrapper.exists()).toBe(isToHaveTitleComponent);
+    }
+  );
 });

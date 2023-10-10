@@ -10,6 +10,7 @@ export const useAppStore = defineStore("appStore", {
     },
   },
   getters: {
-    $myMessage: (state) => `essa é a mensagem: ${state.myMessage}`,
+    // $myMessage: (state) => `essa é a mensagem: ${state.myMessage}`,
+    $myMessage: (state) => state.myMessage,
   },
 });

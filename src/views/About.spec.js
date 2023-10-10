@@ -59,7 +59,7 @@ describe("Suite de testes do ABOUT", () => {
 
     expect(wrapper.emitted("new-message")).toBeTruthy();
     expect(wrapper.emitted("new-message")?.[0][0]).toBe(
-      "essa é a mensagem: Nova mensagem"
+      "Nova mensagem"
     );
     expect(wrapper.emitted("new-message")).toHaveLength(1);
   });
