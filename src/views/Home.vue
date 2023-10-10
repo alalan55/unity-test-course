@@ -10,16 +10,16 @@ const router = useRouter();
 
 const { $myMessage } = storeToRefs(store);
 
-watch($myMessage, () =>{
-  store.changeMessage('test')
-})
+watch($myMessage, () => {
+  store.changeMessage("test");
+});
 
 const goToAbout = () => router.push("/about");
 </script>
 
 <template>
   <div>
-    <TitleComponent value="HOME" />
+    <TitleComponent :value="store.myMessage" />
     <button @click="goToAbout">Ir para sobre</button>
   </div>
 </template>

@@ -1,9 +1,9 @@
 import { shallowMount } from "@vue/test-utils";
 import { describe, expect, it } from "vitest";
 import HomeVue from "./Home.vue";
+import TitleComponent from "../components/TitleComponent.vue";
 import wrapperFactory from "../utils/wrapperFactory";
 import { useAppStore } from "../stores/appStore";
-
 
 const push = vi.fn();
 
@@ -32,14 +32,23 @@ describe("Suite de teste do Home view", () => {
 
   // AULA 19
   it("Deve disparar o changeMessage quando o $myMessage mudar", async () => {
-    const store = useAppStore()
+    const store = useAppStore();
 
-    await store.$patch({myMessage: 'Novo valor'})
+    await store.$patch({ myMessage: "Novo valor" });
 
-    expect(store.changeMessage)
+    expect(store.changeMessage);
 
-    expect(store.changeMessage).toHaveBeenCalledOnce()
-    expect(store.changeMessage).toHaveBeenCalledWith('test')
+    expect(store.changeMessage).toHaveBeenCalledOnce();
+    expect(store.changeMessage).toHaveBeenCalledWith("test");
+  });
 
+  // AULA 20
+  it("Deve fazer o bind correto do stado myMessage com o valor da propriedade do TitleComponent", async () => {
+    const titleComponentWrapper = wrapper.findComponent(TitleComponent);
+    const store = useAppStore();
+
+    await store.$patch({ myMessage: "Novo título" });
+
+    expect(titleComponentWrapper.props("value")).toBe("Novo título");
   });
 });
