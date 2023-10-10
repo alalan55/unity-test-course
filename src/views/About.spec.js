@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import wrapperFactory from "../utils/wrapperFactory";
 import AboutVue from "./About.vue";
 import TitleComponentVue from "../components/TitleComponent.vue";
@@ -55,10 +55,24 @@ describe("Suite de testes do ABOUT", () => {
 
     store.myMessage = "Nova mensagem";
 
-    await wrapper.vm.$nextTick()
+    await wrapper.vm.$nextTick();
 
     expect(wrapper.emitted("new-message")).toBeTruthy();
-    expect(wrapper.emitted("new-message")?.[0][0]).toBe("essa é a mensagem: Nova mensagem");
+    expect(wrapper.emitted("new-message")?.[0][0]).toBe(
+      "essa é a mensagem: Nova mensagem"
+    );
     expect(wrapper.emitted("new-message")).toHaveLength(1);
+  });
+
+  // AULA 18
+  it("Deve chamar a api na rota http://server.com/user com o payload {id: 123}, quando o getter mudar", async () => {
+    const store = useAppStore();
+
+    await store.$patch({ myMessage: "Nova mensagem" });
+
+    expect(fetch).toHaveBeenCalledWith("http://server.com/user", {
+      method: "POST",
+      "body": '{"id":123}',
+    });
   });
 });

@@ -5,6 +5,7 @@ export default defineConfig({
   plugins: [Vue()],
   test: {
     environment: "happy-dom",
-    globals: true
+    globals: true,
+    setupFiles:['./src/utils/setup-global-mock.js']
   },
 });
