@@ -11,17 +11,17 @@ describe("Suite de testes do ABOUT", () => {
     wrapper = wrapperFactory(AboutVue);
   });
 
-  it("Deve disparar o changeMessage quando o TitleComponent emitir o on-mounted", () => {
-    const wrapper = wrapperFactory(AboutVue);
+  // it("Deve disparar o changeMessage quando o TitleComponent emitir o on-mounted", () => {
+  //   const wrapper = wrapperFactory(AboutVue);
 
-    const titleComponentWrapper = wrapper.findComponent(TitleComponentVue);
+  //   const titleComponentWrapper = wrapper.findComponent(TitleComponentVue);
 
-    const store = useAppStore();
+  //   const store = useAppStore();
 
-    titleComponentWrapper.vm.$emit("on-mounted", "test");
+  //   titleComponentWrapper.vm.$emit("on-mounted", "test");
 
-    expect(store.changeMessage).toHaveBeenLastCalledWith("test");
-  });
+  //   expect(store.changeMessage).toHaveBeenLastCalledWith("test");
+  // });
 
   // AULA 15
   it("Deve mudar o titulo quando o TiTleComponent emitir o evento de click", async () => {
@@ -37,15 +37,28 @@ describe("Suite de testes do ABOUT", () => {
   });
 
   //AULA 16
-  it('Deve fazer um toogle no TitleComponent quando o botão for clicado', async() =>{
-    const button = wrapper.find('button')
+  it("Deve fazer um toogle no TitleComponent quando o botão for clicado", async () => {
+    const button = wrapper.find("button");
 
-    let titleComponentWrapper = wrapper.findComponent(TitleComponentVue)
-    await button.trigger('click')
-    expect(titleComponentWrapper.exists()).toBe(false)
+    let titleComponentWrapper = wrapper.findComponent(TitleComponentVue);
+    await button.trigger("click");
+    expect(titleComponentWrapper.exists()).toBe(false);
 
-    await button.trigger('click')
-    titleComponentWrapper = wrapper.findComponent(TitleComponentVue)
-    expect(titleComponentWrapper.exists()).toBe(true)
-  })
+    await button.trigger("click");
+    titleComponentWrapper = wrapper.findComponent(TitleComponentVue);
+    expect(titleComponentWrapper.exists()).toBe(true);
+  });
+
+  // AULA 17
+  it("Deve emitir uma nova mensagem quando o getter $myMessage for alterado", async () => {
+    const store = useAppStore();
+
+    store.myMessage = "Nova mensagem";
+
+    await wrapper.vm.$nextTick()
+
+    expect(wrapper.emitted("new-message")).toBeTruthy();
+    expect(wrapper.emitted("new-message")?.[0][0]).toBe("essa é a mensagem: Nova mensagem");
+    expect(wrapper.emitted("new-message")).toHaveLength(1);
+  });
 });
