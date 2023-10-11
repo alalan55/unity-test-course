@@ -19,7 +19,9 @@ const goToAbout = () => router.push("/about");
 
 <template>
   <div>
-    <TitleComponent v-if="store.$myMessage" :value="store.myMessage" />
+    <TitleComponent v-if="store.$myMessage" :value="store.myMessage">
+      Teste para preencher slot
+    </TitleComponent>
     <button @click="goToAbout">Ir para sobre</button>
   </div>
 </template>

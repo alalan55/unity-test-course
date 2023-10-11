@@ -15,6 +15,7 @@ onMounted(() => {
 <template>
   <div>
     <h1>{{ value }}</h1>
+    <slot />
   </div>
 </template>
 

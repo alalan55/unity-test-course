@@ -73,4 +73,40 @@ describe("Suite de teste do Home view", () => {
       expect(titleComponentWrapper.exists()).toBe(isToHaveTitleComponent);
     }
   );
+
+  // AULA 22
+  it("Deve preencher o slot default do TitleComponent", async () => {
+    wrapper = wrapperFactory(HomeVue, {
+      global: {
+        // stub: {
+        //   TitleComponent,
+        // },
+        renderStubDefaultSlot: true
+      },
+    });
+    const store = useAppStore();
+
+    await store.$patch({ myMessage: "Novo título" });
+
+    console.log(wrapper.html())
+
+    expect(wrapper.text()).toContain('Teste para preencher slot')
+  });
+
+  // it("Deve preencher o slot default do TitleComponent", async () => {
+  //   wrapper = wrapperFactory(HomeVue, {
+  //     global: {
+  //       stub: {
+  //         TitleComponent,
+  //       },
+  //     },
+  //   });
+  //   const store = useAppStore();
+
+  //   await store.$patch({ myMessage: "Novo título" });
+
+  //   console.log(wrapper.html())
+
+  //   expect(wrapper.text()).toContain('Teste para preencher slot')
+  // });
 });

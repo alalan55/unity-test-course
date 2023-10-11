@@ -1,11 +1,16 @@
 import { createTestingPinia } from "@pinia/testing";
 import { shallowMount } from "@vue/test-utils";
+import { merge } from "lodash";
 
-const wrapperFactory = (component) =>
-  shallowMount(component, {
+const wrapperFactory = (component, options) => {
+  
+  const defaultOptions = {
     global: {
       plugins: [createTestingPinia()],
     },
-  });
+  };
 
-  export default wrapperFactory
+  return shallowMount(component, merge(options ?? {}, defaultOptions));
+};
+
+export default wrapperFactory;
