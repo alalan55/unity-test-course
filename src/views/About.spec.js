@@ -58,9 +58,7 @@ describe("Suite de testes do ABOUT", () => {
     await wrapper.vm.$nextTick();
 
     expect(wrapper.emitted("new-message")).toBeTruthy();
-    expect(wrapper.emitted("new-message")?.[0][0]).toBe(
-      "Nova mensagem"
-    );
+    expect(wrapper.emitted("new-message")?.[0][0]).toBe("Nova mensagem");
     expect(wrapper.emitted("new-message")).toHaveLength(1);
   });
 
